@@ -1,0 +1,13 @@
+{% extends 'catalog/base.html' %}
+{% block title %}Каталог книг{% endblock %}
+{% block content %}
+<section class="hero"><div><div class="eyebrow">Личный каталог</div><h1>Книги, которые<br>хочется сохранить</h1><p>Собирайте любимые издания в одном месте. Ищите по названию, автору или издательству.</p></div><a class="button" href="{% url 'book-create' %}">＋ Добавить книгу</a></section>
+<div class="stats"><div class="stat"><b>{{ total_books }}</b><span>книг в каталоге</span></div><div class="stat"><b>{{ total_authors }}</b><span>авторов</span></div><div class="stat"><b>{{ total_publishers }}</b><span>издательств</span></div></div>
+<div class="section-head"><div><h2>Все книги</h2><div class="muted">{% if search_query %}Результаты поиска по запросу «{{ search_query }}»{% else %}Весь список каталога{% endif %}</div></div>
+<form class="search" method="get"><input type="search" name="q" value="{{ search_query }}" placeholder="Название, автор, издательство"><button class="button button-light" type="submit">Найти</button></form></div>
+<div class="grid">
+{% for book in books %}<a class="book-card" href="{{ book.get_absolute_url }}"><span class="book-icon">📖</span><span class="book-title">{{ book.title }}</span><span class="book-meta">{{ book.author.name }}<br>{{ book.publisher.name }}</span><span class="book-year">{% if book.published_year %}{{ book.published_year }} год{% else %}Год не указан{% endif %}</span></a>
+{% empty %}<div class="empty">{% if search_query %}Ничего не найдено. Попробуйте изменить запрос.{% else %}Каталог пока пуст. Добавьте первую книгу!{% endif %}</div>{% endfor %}
+</div>
+{% if is_paginated %}<div class="pagination">{% if page_obj.has_previous %}<a href="?q={{ search_query }}&page={{ page_obj.previous_page_number }}">← Назад</a>{% endif %}<span>Страница {{ page_obj.number }} из {{ page_obj.paginator.num_pages }}</span>{% if page_obj.has_next %}<a href="?q={{ search_query }}&page={{ page_obj.next_page_number }}">Дальше →</a>{% endif %}</div>{% endif %}
+{% endblock %}

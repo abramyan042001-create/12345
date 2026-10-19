@@ -1,0 +1,3 @@
+{% extends 'catalog/base.html' %}
+{% block title %}Удалить книгу{% endblock %}
+{% block content %}<div style="max-width:600px;margin:35px auto"><div class="panel"><div class="eyebrow">Подтверждение</div><h1>Удалить книгу?</h1><p>Книга «{{ object.title }}» будет удалена из каталога. Это действие нельзя отменить.</p><form method="post">{% csrf_token %}<div class="actions"><button class="button" style="background:#a64d42" type="submit">Удалить</button><a class="button button-light" href="{{ object.get_absolute_url }}">Отмена</a></div></form></div></div>{% endblock %}
